@@ -19,40 +19,34 @@
         text-align: center;
       }
 
-      h1 {
-        font-size: 4rem;
-        margin: 0.5rem 0;
-      }
-
       h2 {
-        font-size: 2rem;
-        margin: 0.5rem 0 2rem;
-        font-weight: normal;
+        font-size: 2.5rem;
+        font-weight: 300;
+        margin-bottom: 1rem;
+        color: #58a6ff;
       }
 
       #countdown {
-        font-size: 3.5rem;
+        font-size: 4rem;
         font-weight: bold;
-        letter-spacing: 2px;
+        letter-spacing: 3px;
+        color: #f0f6fc;
+        text-shadow: 0 0 10px rgba(88, 166, 255, 0.4);
       }
 
       @media (max-width: 768px) {
-        h1 {
-          font-size: 2.5rem;
-        }
-
         h2 {
-          font-size: 1.25rem;
+          font-size: 1.5rem;
         }
 
         #countdown {
-          font-size: 2rem;
+          font-size: 2.5rem;
+          letter-spacing: 1px;
         }
       }
     </style>
   </head>
   <body>
-    <h1>Exam Countdown.</h1>
     <h2>Year 11 exams begin in...</h2>
     <div id="countdown">Loading...</div>
 
