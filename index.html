@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Exam Countdown</title>
     <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* 🚫 Disable scroll */
+      }
+
       body {
         background-color: #0d1117;
         color: #f0f6fc;
@@ -13,9 +21,6 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        margin: 0;
-        padding: 20px;
         text-align: center;
       }
 
@@ -47,8 +52,8 @@
     </style>
   </head>
   <body>
-    <h2>Year 11 exams begin in...</h2>
-    <div id="countdown">Loading...</div>
+    <h2>🕒 Year 11 exams begin in...</h2>
+    <div id="countdown">🎓📚 Loading...</div>
 
     <script>
       const examDate = new Date("2025-05-01T09:00:00");
@@ -57,9 +62,10 @@
         const now = new Date();
         const diff = examDate.getTime() - now.getTime();
 
+        const countdownEl = document.getElementById("countdown");
+
         if (diff <= 0) {
-          document.getElementById("countdown").textContent =
-            "Good luck, Year 11!";
+          countdownEl.textContent = "🎓 Good luck, Year 11!";
           return;
         }
 
@@ -69,9 +75,7 @@
         const mins = Math.floor((totalSeconds % (60 * 60)) / 60);
         const secs = totalSeconds % 60;
 
-        document.getElementById(
-          "countdown"
-        ).textContent = `${days}d ${hours}h ${mins}m ${secs}s`;
+        countdownEl.textContent = `🎓 ${days}d ${hours}h ${mins}m ${secs}s`;
       }
 
       updateCountdown();
