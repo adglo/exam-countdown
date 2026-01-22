@@ -26,6 +26,10 @@
         gap: 2.5rem;
       }
 
+      section {
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+
       h2 {
         font-size: 2.2rem;
         font-weight: 300;
@@ -49,15 +53,22 @@
           rgba(88, 166, 255, 0.5),
           transparent
         );
-        margin: 1rem 0;
       }
 
       .real-exam h2 {
-        color: #f78166; /* warmer tone = more serious */
+        color: #f78166;
       }
 
       .real-exam .countdown {
         text-shadow: 0 0 10px rgba(247, 129, 102, 0.4);
+      }
+
+      .hidden {
+        opacity: 0;
+        transform: scale(0.95);
+        pointer-events: none;
+        height: 0;
+        overflow: hidden;
       }
 
       @media (max-width: 768px) {
@@ -75,58 +86,69 @@
 
   <body>
     <!-- MOCK EXAMS -->
-    <section>
+    <section id="mockSection">
       <h2>🕒 Year 11 Mock exams begin in…</h2>
-      <div id="mockCountdown" class="countdown">🎓📚 Loading…</div>
+      <div id="mockCountdown" class="countdown">Loading…</div>
     </section>
 
-    <div class="divider"></div>
+    <div id="divider" class="divider"></div>
 
     <!-- REAL EXAMS -->
     <section class="real-exam">
       <h2>🔥 GCSE exams begin in…</h2>
-      <div id="realCountdown" class="countdown">📘✏️ Loading…</div>
+      <div id="realCountdown" class="countdown">Loading…</div>
     </section>
 
     <script>
       const mockExamDate = new Date("2026-02-09T09:00:00");
       const realExamDate = new Date("2026-04-13T09:00:00");
 
-      function updateCountdown(targetDate, elementId, finishedText) {
-        const now = new Date();
-        const diff = targetDate.getTime() - now.getTime();
-        const el = document.getElementById(elementId);
+      function formatCountdown(diffMs) {
+        const totalSeconds = Math.floor(diffMs / 1000);
 
-        if (diff <= 0) {
-          el.textContent = finishedText;
-          return;
-        }
-
-        const totalSeconds = Math.floor(diff / 1000);
-        const days = Math.floor(totalSeconds / (60 * 60 * 24));
-        const hours = Math.floor((totalSeconds % (60 * 60 * 24)) / (60 * 60));
+        const weeks = Math.floor(totalSeconds / (60 * 60 * 24 * 7));
+        const days = Math.floor(
+          (totalSeconds % (60 * 60 * 24 * 7)) / (60 * 60 * 24)
+        );
+        const hours = Math.floor(
+          (totalSeconds % (60 * 60 * 24)) / (60 * 60)
+        );
         const mins = Math.floor((totalSeconds % (60 * 60)) / 60);
         const secs = totalSeconds % 60;
 
-        el.textContent = `🎓 ${days}d ${hours}h ${mins}m ${secs}s`;
+        return `${weeks}w ${days}d ${hours}h ${mins}m ${secs}s`;
       }
 
-      function tick() {
-        updateCountdown(
-          mockExamDate,
-          "mockCountdown",
-          "🎓 Good luck with your mocks!"
-        );
+      function update() {
+        const now = new Date();
 
-        updateCountdown(
-          realExamDate,
-          "realCountdown",
-          "🏁 GCSEs are underway — you've got this!"
-        );
+        /* MOCK EXAMS */
+        const mockDiff = mockExamDate - now;
+        const mockSection = document.getElementById("mockSection");
+        const divider = document.getElementById("divider");
+
+        if (mockDiff <= 0) {
+          mockSection.classList.add("hidden");
+          divider.classList.add("hidden");
+        } else {
+          document.getElementById("mockCountdown").textContent =
+            "🎓 " + formatCountdown(mockDiff);
+        }
+
+        /* REAL EXAMS */
+        const realDiff = realExamDate - now;
+
+        if (realDiff <= 0) {
+          document.getElementById("realCountdown").textContent =
+            "🏁 GCSEs are underway — you've got this!";
+        } else {
+          document.getElementById("realCountdown").textContent =
+            "📘 " + formatCountdown(realDiff);
+        }
       }
 
-      tick();
-      setInterval(tick, 1000);
+      update();
+      setInterval(update, 1000);
     </script>
   </body>
 </html>
