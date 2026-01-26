@@ -44,16 +44,11 @@
         text-shadow: 0 0 10px rgba(88, 166, 255, 0.4);
       }
 
-      /* Secondary GCSE (small, subtle) */
+      /* GCSE secondary line (single line) */
       .secondary {
-        font-size: 1.2rem;
-        letter-spacing: 1px;
-        opacity: 0.65;
-      }
-
-      .secondary h2 {
         font-size: 1.1rem;
-        color: #8b949e;
+        opacity: 0.65;
+        letter-spacing: 1px;
       }
 
       .divider {
@@ -67,13 +62,16 @@
         );
       }
 
-      /* GCSE main mode */
-      .gcse-main h2 {
-        color: #f78166;
+      /* GCSE as main focus */
+      .gcse-main {
+        text-align: center;
       }
 
-      .gcse-main .countdown {
+      .gcse-main #realCountdown {
         font-size: 3.8rem;
+        font-weight: bold;
+        letter-spacing: 3px;
+        color: #f78166;
         text-shadow: 0 0 10px rgba(247, 129, 102, 0.4);
       }
 
@@ -90,8 +88,10 @@
           font-size: 1.4rem;
         }
 
-        .countdown {
+        .countdown,
+        .gcse-main #realCountdown {
           font-size: 2.4rem;
+          letter-spacing: 1px;
         }
 
         .secondary {
@@ -108,10 +108,9 @@
       <div id="mockCountdown" class="countdown">Loading…</div>
     </section>
 
-    <!-- GCSE (SECONDARY INITIALLY) -->
+    <!-- GCSE (SECONDARY INITIALLY, SINGLE LINE) -->
     <section id="gcseSection" class="secondary">
-      <h2>GCSE exams begin in…</h2>
-      <div id="realCountdown">Loading…</div>
+      <div id="realCountdown">📘🔥 GCSE exams begin in… Loading…</div>
     </section>
 
     <div id="divider" class="divider"></div>
@@ -145,27 +144,27 @@
         const mockSection = document.getElementById("mockSection");
         const gcseSection = document.getElementById("gcseSection");
         const divider = document.getElementById("divider");
+        const mockCountdown = document.getElementById("mockCountdown");
+        const realCountdown = document.getElementById("realCountdown");
 
         /* MOCK LOGIC */
         if (mockDiff <= 0) {
           mockSection.classList.add("hidden");
 
-          // GCSE becomes main focus
           gcseSection.classList.remove("secondary");
           gcseSection.classList.add("gcse-main");
           divider.classList.add("hidden");
         } else {
-          document.getElementById("mockCountdown").textContent =
-            "🎓 " + formatCountdown(mockDiff);
+          mockCountdown.textContent = "🎓 " + formatCountdown(mockDiff);
         }
 
         /* GCSE LOGIC */
         if (realDiff <= 0) {
-          document.getElementById("realCountdown").textContent =
+          realCountdown.textContent =
             "🏁 GCSEs are underway — you've got this!";
         } else {
-          document.getElementById("realCountdown").textContent =
-            "📘 " + formatCountdown(realDiff);
+          realCountdown.textContent =
+            `📘🔥 GCSE exams begin in… ${formatCountdown(realDiff)}`;
         }
       }
 
