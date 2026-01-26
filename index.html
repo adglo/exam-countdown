@@ -23,17 +23,17 @@
         justify-content: center;
         align-items: center;
         text-align: center;
-        gap: 2.5rem;
+        gap: 1.5rem;
       }
 
       section {
-        transition: opacity 0.5s ease, transform 0.5s ease;
+        transition: all 0.6s ease;
       }
 
       h2 {
         font-size: 2.2rem;
         font-weight: 300;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.4rem;
         color: #58a6ff;
       }
 
@@ -42,6 +42,18 @@
         font-weight: bold;
         letter-spacing: 3px;
         text-shadow: 0 0 10px rgba(88, 166, 255, 0.4);
+      }
+
+      /* Secondary GCSE (small, subtle) */
+      .secondary {
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+        opacity: 0.65;
+      }
+
+      .secondary h2 {
+        font-size: 1.1rem;
+        color: #8b949e;
       }
 
       .divider {
@@ -55,20 +67,22 @@
         );
       }
 
-      .real-exam h2 {
+      /* GCSE main mode */
+      .gcse-main h2 {
         color: #f78166;
       }
 
-      .real-exam .countdown {
+      .gcse-main .countdown {
+        font-size: 3.8rem;
         text-shadow: 0 0 10px rgba(247, 129, 102, 0.4);
       }
 
       .hidden {
         opacity: 0;
-        transform: scale(0.95);
-        pointer-events: none;
         height: 0;
         overflow: hidden;
+        pointer-events: none;
+        transform: scale(0.95);
       }
 
       @media (max-width: 768px) {
@@ -78,26 +92,29 @@
 
         .countdown {
           font-size: 2.4rem;
-          letter-spacing: 1px;
+        }
+
+        .secondary {
+          font-size: 0.95rem;
         }
       }
     </style>
   </head>
 
   <body>
-    <!-- MOCK EXAMS -->
+    <!-- MOCK EXAMS (MAIN INITIALLY) -->
     <section id="mockSection">
       <h2>🕒 Year 11 Mock exams begin in…</h2>
       <div id="mockCountdown" class="countdown">Loading…</div>
     </section>
 
-    <div id="divider" class="divider"></div>
-
-    <!-- REAL EXAMS -->
-    <section class="real-exam">
-      <h2>🔥 GCSE exams begin in…</h2>
-      <div id="realCountdown" class="countdown">Loading…</div>
+    <!-- GCSE (SECONDARY INITIALLY) -->
+    <section id="gcseSection" class="secondary">
+      <h2>GCSE exams begin in…</h2>
+      <div id="realCountdown">Loading…</div>
     </section>
+
+    <div id="divider" class="divider"></div>
 
     <script>
       const mockExamDate = new Date("2026-02-09T09:00:00");
@@ -122,22 +139,27 @@
       function update() {
         const now = new Date();
 
-        /* MOCK EXAMS */
         const mockDiff = mockExamDate - now;
+        const realDiff = realExamDate - now;
+
         const mockSection = document.getElementById("mockSection");
+        const gcseSection = document.getElementById("gcseSection");
         const divider = document.getElementById("divider");
 
+        /* MOCK LOGIC */
         if (mockDiff <= 0) {
           mockSection.classList.add("hidden");
+
+          // GCSE becomes main focus
+          gcseSection.classList.remove("secondary");
+          gcseSection.classList.add("gcse-main");
           divider.classList.add("hidden");
         } else {
           document.getElementById("mockCountdown").textContent =
             "🎓 " + formatCountdown(mockDiff);
         }
 
-        /* REAL EXAMS */
-        const realDiff = realExamDate - now;
-
+        /* GCSE LOGIC */
         if (realDiff <= 0) {
           document.getElementById("realCountdown").textContent =
             "🏁 GCSEs are underway — you've got this!";
